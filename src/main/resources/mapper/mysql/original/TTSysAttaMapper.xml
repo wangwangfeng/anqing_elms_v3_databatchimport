@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zfsoft.batchimport.mapper.original.TTSysAttaMapper">
+    <resultMap id="TSysAtta" type="com.zfsoft.batchimport.domain.entity.TTSysAtta">
+        <id column="OID" jdbcType="VARCHAR" property="oid"/>
+        <result column="NAME" jdbcType="VARCHAR" property="name"/>
+        <result column="ORIGIN_NAME" jdbcType="VARCHAR" property="originName"/>
+        <result column="FILE_PATH" jdbcType="VARCHAR" property="filePath"/>
+        <result column="EXTENSION_NAME" jdbcType="VARCHAR" property="extensionName"/>
+        <result column="UPLOAD_DATE" jdbcType="VARCHAR" property="uploadDate"/>
+        <result column="USER_OID" jdbcType="VARCHAR" property="userOid"/>
+        <result column="IS_DELETE" jdbcType="VARCHAR" property="isDelete"/>
+        <result column="SYNC_STATUS" jdbcType="VARCHAR" property="synStatus"/>
+    </resultMap>
+    <resultMap id="TSysAttaOid" type="com.zfsoft.batchimport.domain.entity.TTSysAtta">
+        <id column="OID" jdbcType="VARCHAR" property="oid"/>
+        <result column="file_path" jdbcType="VARCHAR" property="filePath"/>
+        <result column="ORIGIN_NAME" jdbcType="VARCHAR" property="originName"/>
+        <result column="NAME" jdbcType="VARCHAR" property="name"/>
+    </resultMap>
+    <select id="selectByNum" resultMap="TSysAtta">
+        SELECT * from t_sys_atta_copy where SYNC_STATUS = 'N' limit ${start},${len}
+    </select>
+    <select id="selectALLAttaOid" resultMap="TSysAttaOid">
+        SELECT oid,file_path,ORIGIN_NAME,NAME from t_sys_atta_copy where SYNC_STATUS = 'N' order by UPLOAD_DATE asc limit ${start},${len}
+    </select>
+</mapper>

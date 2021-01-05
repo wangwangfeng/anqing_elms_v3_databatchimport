@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Configuration后面的status，这个用于设置log4j2自身内部的信息输出，可以不设置，当设置成trace时，你会看到log4j2内部各种详细输出-->
+<!--monitorInterval：Log4j能够自动检测修改配置 文件和重新配置本身，设置间隔秒数-->
+<configuration monitorInterval="5">
+    <!--日志级别以及优先级排序: OFF > FATAL > ERROR > WARN > INFO > DEBUG > TRACE > ALL -->
+
+    <!--变量配置-->
+    <Properties>
+        <!-- 格式化输出：%date表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度 %msg：日志消息，%n是换行符-->
+        <!-- %logger{36} 表示 Logger 名字最长36个字符 -->
+        <!--<property name="LOG_PATTERN" value="%date{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n" />-->
+        <!--集群状态下标识-->
+        <Property name="CLUSTER_INDEX" value="log-analyze-client1" />
+        <!--项目名 根据此名称生成日志索引-->
+        <Property name="PROJECT_NAME" value="log-analyze" />
+        <!--fluentd http服务地址-->
+<!--       dev-->
+<!--        <Property name="FLUENTD_SERVER" value="http://172.168.252.221:10888/es.${PROJECT_NAME}" />-->
+<!--       test-->
+<!--        <Property name="FLUENTD_SERVER" value="http://172.168.252.221:10888/es.${PROJECT_NAME}" />-->
+<!--        prod-->
+<!--        <Property name="FLUENTD_SERVER" value="http://172.168.252.221:10888/es.${PROJECT_NAME}" />-->
+        <Property name="EFK_LOG_PATTERN"  value="%d{yyyy-MM-dd HH:mm:ss} %-5p  thread[%thread] %l  %msg %n" />
+        <!--获取服务器ip用于标识集群状态下日志输出来源-->
+        <Property name="LOG_LOCAL_IP" value="${sys:local-ip}" />
+        <!-- 定义日志存储的路径，不要配置相对路径 -->
+        <!--liunx下建议修改为: /logs/${PROJECT_NAME} -->
+        <property name="FILE_PATH" value="D://logs/${PROJECT_NAME}" />
+    </Properties>
+    <appenders>
+        <console name="Console" target="SYSTEM_OUT">
+            <!--输出日志的格式-->
+            <PatternLayout pattern="${EFK_LOG_PATTERN}"/>
+            <!--控制台只输出level及其以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
+            <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
+        </console>
+
+        <!--文件会打印出所有信息，这个log每次运行程序会自动清空，由append属性决定，适合临时测试用-->
+        <File name="Filelog" fileName="${FILE_PATH}/test.log" append="false">
+            <PatternLayout pattern="${EFK_LOG_PATTERN}"/>
+        </File>
+
+        <!-- 这个会打印出所有的info及以下级别的信息，每次大小超过size，则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档-->
+        <RollingFile name="RollingFileInfo" fileName="${FILE_PATH}/info.log" filePattern="${FILE_PATH}/${PROJECT_NAME}-INFO-%d{yyyy-MM-dd}_%i.log.gz">
+            <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
+            <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="${EFK_LOG_PATTERN}"/>
+            <Policies>
+                <!--interval属性用来指定多久滚动一次，默认是1 hour-->
+                <TimeBasedTriggeringPolicy interval="1"/>
+                <SizeBasedTriggeringPolicy size="10MB"/>
+            </Policies>
+            <!-- DefaultRolloverStrategy属性如不设置，则默认为最多同一文件夹下7个文件开始覆盖-->
+            <DefaultRolloverStrategy max="15">
+                <Delete basePath="test-log" maxDepth="1">
+                    <IfFileName glob="${PROJECT_NAME}-INFO-*.log.gz" />
+                    <!--删除15天前的文件-->
+                    <IfLastModified age="15d" />
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+
+        <!-- 这个会打印出所有的warn及以下级别的信息，每次大小超过size，则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档-->
+        <RollingFile name="RollingFileWarn" fileName="${FILE_PATH}/warn.log" filePattern="${FILE_PATH}/${PROJECT_NAME}-WARN-%d{yyyy-MM-dd}_%i.log.gz">
+            <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
+            <ThresholdFilter level="warn" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="${EFK_LOG_PATTERN}"/>
+            <Policies>
+                <!--interval属性用来指定多久滚动一次，默认是1 hour-->
+                <TimeBasedTriggeringPolicy interval="1"/>
+                <SizeBasedTriggeringPolicy size="10MB"/>
+            </Policies>
+            <!-- DefaultRolloverStrategy属性如不设置，则默认为最多同一文件夹下7个文件开始覆盖-->
+            <DefaultRolloverStrategy max="15">
+                <Delete basePath="test-log" maxDepth="1">
+                    <IfFileName glob="${PROJECT_NAME}-WARN-*.log.gz" />
+                    <!--删除15天前的文件-->
+                    <IfLastModified age="15d" />
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+
+        <!-- 这个会打印出所有的error及以下级别的信息，每次大小超过size，则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档-->
+        <RollingFile name="RollingFileError" fileName="${FILE_PATH}/error.log" filePattern="${FILE_PATH}/${PROJECT_NAME}-ERROR-%d{yyyy-MM-dd}_%i.log.gz">
+            <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
+            <ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="${EFK_LOG_PATTERN}"/>
+            <Policies>
+                <!--interval属性用来指定多久滚动一次，默认是1 hour-->
+                <TimeBasedTriggeringPolicy interval="1"/>
+                <SizeBasedTriggeringPolicy size="10MB"/>
+            </Policies>
+            <!-- DefaultRolloverStrategy属性如不设置，则默认为最多同一文件夹下7个文件开始覆盖-->
+            <DefaultRolloverStrategy max="15">
+                <Delete basePath="test-log" maxDepth="1">
+                    <IfFileName glob="${PROJECT_NAME}-ERROR-*.log.gz" />
+                    <!--删除15天前的文件-->
+                    <IfLastModified age="15d" />
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+        <!--测试环境 efk的Fluented 入口-->
+        <!--tcp方式-->
+        <!--121.40.182.248-->
+        <!--<Socket name="Fluented" host="121.40.182.248" port="8889" protocol="TCP">-->
+        <!--<ProJsonPatternLayout charset="UTF-8" pattern="${EFK_LOG_PATTERN}" projectName="${PROJECT_NAME}" logType="ming" />-->
+        <!--</Socket>-->
+        <!--http方式-->
+        <Http name="Fluented" url="${FLUENTD_SERVER}" method="POST">
+            <!--<ProJsonPatternLayout charset="UTF-8" pattern="${EFK_LOG_PATTERN}" projectName="${PROJECT_NAME}" logType="ming" />-->
+            <JsonLayout properties="true" stacktraceAsString="true" locationInfo="true">
+                <!--时间格式必须为 UTC 通用标准时-->
+                <KeyValuePair key="timestamp" value="$${date:yyyy-MM-dd'T'HH:mm:ss.SSSZ}" />
+                <KeyValuePair key="projectName" value="${PROJECT_NAME}" />
+                <KeyValuePair key="clusterIndex" value="${CLUSTER_INDEX}" />
+                <KeyValuePair key="logfilePath" value="${FILE_PATH}" />
+                <KeyValuePair key="logLocalIp" value="${LOG_LOCAL_IP}" />
+            </JsonLayout>
+        </Http>
+        <!--异步传输日志-->
+        <Async name="Async">
+            <appenderRef ref="Console"/>
+            <appenderRef ref="Filelog"/>
+            <appenderRef ref="RollingFileInfo"/>
+            <appenderRef ref="RollingFileWarn"/>
+            <appenderRef ref="RollingFileError"/>
+            <AppenderRef ref="Fluented"/>
+        </Async>
+    </appenders>
+
+    <!--Logger节点用来单独指定日志的形式，比如要为指定包下的class指定不同的日志级别等。-->
+    <!--然后定义loggers，只有定义了logger并引入的appender，appender才会生效-->
+    <loggers>
+
+        <!--过滤掉spring和mybatis的一些无用的DEBUG信息-->
+        <logger name="org.mybatis" level="debug" additivity="false">
+            <AppenderRef ref="Console"/>
+        </logger>
+        <!--监控系统信息-->
+        <!--若是additivity设为false，则 子Logger 只会在自己的appender里输出，而不会在 父Logger 的appender里输出。-->
+        <Logger name="org.springframework" level="debug" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+
+        <root level="DEBUG">
+            <!--<AppenderRef ref="Fluented" />-->
+            <AppenderRef ref="Async"/>
+        </root>
+        <!--logger 继承root  此配置是输出com.spring.mvc 下面的error及以上的日志到 RollingFile 项-->
+        <!--additivity ＝ true 则root日志也输出。false则不执行root日志-->
+        <!--<Logger name="123" level="info" additivity="true">-->
+        <!--<AppenderRef ref="fluented" />-->
+        <!--</Logger>-->
+    </loggers>
+</configuration>

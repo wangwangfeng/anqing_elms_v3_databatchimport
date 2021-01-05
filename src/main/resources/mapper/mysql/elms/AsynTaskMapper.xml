@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zfsoft.batchimport.mapper.elms.AsynTaskMapper">
+  <resultMap id="BaseResultMap" type="com.zfsoft.batchimport.domain.entity.AsynTask">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="OID" jdbcType="VARCHAR" property="oid" />
+    <result column="task_name" jdbcType="VARCHAR" property="taskName" />
+    <result column="task_begin_time" jdbcType="TIMESTAMP" property="taskBeginTime" />
+    <result column="task_status" jdbcType="VARCHAR" property="taskStatus" />
+    <result column="task_total_number" jdbcType="INTEGER" property="taskTotalNumber" />
+    <result column="task_fail_number" jdbcType="INTEGER" property="taskFailNumber" />
+    <result column="file_id" jdbcType="VARCHAR" property="fileId" />
+    <result column="fail_file_id" jdbcType="VARCHAR" property="failFileId" />
+    <result column="task_success_number" jdbcType="INTEGER" property="taskSuccessNumber" />
+    <result column="task_end_time" jdbcType="TIMESTAMP" property="taskEndTime" />
+    <result column="task_total_time" jdbcType="BIGINT" property="taskTotalTime" />
+    <result column="MODIFY_DATE" jdbcType="TIMESTAMP" property="modifyDate" />
+  </resultMap>
+</mapper>

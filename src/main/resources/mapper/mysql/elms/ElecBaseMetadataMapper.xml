@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zfsoft.batchimport.mapper.elms.ElecBaseMetadataMapper">
+  <resultMap id="ElecBaseMetadata" type="com.zfsoft.batchimport.domain.entity.ElecBaseMetadata">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="OID" jdbcType="VARCHAR" property="oid" />
+    <result column="field_Name" jdbcType="VARCHAR" property="fieldName" />
+    <result column="field_Code" jdbcType="VARCHAR" property="fieldCode" />
+    <result column="field_Type" jdbcType="VARCHAR" property="fieldType" />
+    <result column="field_Length" jdbcType="VARCHAR" property="fieldLength" />
+    <result column="is_Null" jdbcType="VARCHAR" property="isNull" />
+  </resultMap>
+  <sql id="Base_Column_List">
+		t.Oid,
+		t.field_Name,
+		t.field_Code,
+		t.field_Type,
+		t.field_Length,
+		t.is_Null
+	</sql>
+  <select id="baseMetadataList"  resultMap="ElecBaseMetadata">
+    select <include refid="Base_Column_List" />
+    from T_Elec_Base_Metadata t
+  </select>
+
+</mapper>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zfsoft.batchimport.mapper.middle.ElecLicenseSbSubedMapper">
+    <resultMap id="ElecLicenseSbSubed" type="com.zfsoft.batchimport.domain.entity.ElecLicenseSbSubed">
+        <id column="OID" jdbcType="VARCHAR" property="oid"/>
+        <result column="BIZ_ID" jdbcType="VARCHAR" property="bizId"/>
+        <result column="OWNER_ID" jdbcType="VARCHAR" property="ownerId"/>
+        <result column="CONTENT_NAME" jdbcType="VARCHAR" property="contentName"/>
+        <result column="INFO_CODE" jdbcType="VARCHAR" property="infoCode"/>
+        <result column="LSH_CODE" jdbcType="VARCHAR" property="lshCode"/>
+        <result column="CODE" jdbcType="VARCHAR" property="code"/>
+        <result column="OWNER_NAME" jdbcType="VARCHAR" property="ownerName"/>
+        <result column="VERSION" jdbcType="VARCHAR" property="version"/>
+        <result column="CONTENT_CODE" jdbcType="VARCHAR" property="contentCode"/>
+        <result column="VALID_BEGIN" jdbcType="TIMESTAMP" property="validBegin"/>
+        <result column="VALID_END" jdbcType="TIMESTAMP" property="validEnd"/>
+        <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="USER_NAME" jdbcType="VARCHAR" property="userName"/>
+        <result column="USER_CODE" jdbcType="VARCHAR" property="userCode"/>
+        <result column="IDCARD" jdbcType="VARCHAR" property="idcard"/>
+        <result column="ORG_CODE" jdbcType="VARCHAR" property="orgCode"/>
+        <result column="ORG_NAME" jdbcType="VARCHAR" property="orgName"/>
+        <result column="OP_TYPE" jdbcType="VARCHAR" property="opType"/>
+        <result column="MODIFY_DATE" jdbcType="TIMESTAMP" property="modifyDate"/>
+        <result column="SUB_SYNC_DATE" jdbcType="TIMESTAMP" property="subSyncDate"/>
+        <result column="SUB_PUSH_FLAG" jdbcType="VARCHAR" property="subPushFlag"/>
+        <result column="SUB_NUM_TIME" jdbcType="VARCHAR" property="subNumTime"/>
+        <result column="DIRECTORY_OBJ" jdbcType="VARCHAR" property="directoryObj"/>
+        <result column="CONTENT_MD5" jdbcType="VARCHAR" property="contentMD5"/>
+    </resultMap>
+    <select id="getSubNumTimes" resultType="Integer">
+         select SUB_NUM_TIME  from T_ELEC_LICENSE_SB_SUBED where SUB_PUSH_FLAG = '0' group by SUB_NUM_TIME
+    </select>
+
+    <select id="getElecLicenseSbSubedList" parameterType="Integer" resultMap="ElecLicenseSbSubed">
+        select * from T_ELEC_LICENSE_SB_SUBED where 1 = 1
+        <if test="subNumTime != null and subNumTime != ''">
+            and SUB_NUM_TIME = #{subNumTime}
+        </if>
+    </select>
+
+    <update id="updateElecLicenseSbSubed" parameterType="String">
+        update  T_ELEC_LICENSE_SB_SUBED set sub_push_flag = '1' where OID = #{subOid}
+    </update>
+
+
+</mapper>

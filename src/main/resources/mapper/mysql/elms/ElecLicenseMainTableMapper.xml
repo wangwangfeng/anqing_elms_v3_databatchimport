@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zfsoft.batchimport.mapper.elms.ElecLicenseMainTableMapper">
+  <resultMap id="ElecLicenseMainTable" type="com.zfsoft.batchimport.domain.entity.ElecLicenseMainTable">
+        <id column="OID" jdbcType="VARCHAR" property="oid" />
+        <result column="PARAM_HTML" jdbcType="VARCHAR" property="paramHtml" />
+        <result column="PARAM_JSON" jdbcType="VARCHAR" property="paramJson" />
+        <result column="PARAM_JSON_MD5" jdbcType="VARCHAR" property="paramJsonMD5" />
+        <result column="LASTVERSION_PARAM" jdbcType="VARCHAR" property="lastVersionParam" />
+        <result column="COMMON_KEY" jdbcType="VARCHAR" property="commonKey" />
+        <result column="COMMON_VALUE" jdbcType="VARCHAR" property="commonValue" />
+  </resultMap>
+    <select id="viewElecLicenseMainTable" parameterType="String" resultMap="ElecLicenseMainTable">
+        select *
+        from T_ELEC_LICENSE_TABLE where 1 = 1
+        <if test="tableOid != null and tableOid != ''">
+            and OID = #{tableOid}
+        </if>
+    </select>
+
+</mapper>

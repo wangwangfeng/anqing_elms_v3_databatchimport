@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zfsoft.batchimport.mapper.elms.CommonMapper">
+
+
+  <select id="getElecLicenseDirTypeTimeList" parameterType="String"  resultType="java.util.HashMap">
+    	select *  from T_ELEC_LICENSE_DIR_TYPE_TIME where LICENSE_TYPE_OID = #{licenseTypeOid } and del_flag = 'N'  limit 0,5
+  </select>
+
+
+  <select id="getTemplateList" parameterType="String"  resultType="java.util.HashMap">
+    	select *  from t_template where directory_Oid = #{directoryOid }  and organ_oid = #{organOid } and  MAIN_TEMPLATE_FLAG = '2' and del_flag = 'N';
+  </select>
+
+
+  <select id="getSysConfigList" parameterType="String"  resultType="java.util.HashMap">
+        select * from t_sys_config where PARENT_OID = '402881f858bd35cf0158bd48a4a10000' and IS_DELETE = 'N' ;
+  </select>
+
+   <select id="getOrgan" parameterType="String"  resultType="java.util.HashMap">
+     select * from t_sys_organ o,T_ELEC_DIR_CLAIM cl where cl.ORGAN_OID = o.oid and cl.oid =  #{claimOid }   and cl.IS_DELETE = 'N' and  o.IS_DELETE = 'N' ;
+  </select>
+
+
+    <select id="getLicenseTypeOidByDirMain" parameterType="String"  resultType="java.util.HashMap">
+     select dm.LICENCE_TYPE  as LICENCE_TYPE from t_elec_license_dir_main dm where dm.DIRECTORY_OID =  #{directoryOid }  and dm.del_flag = 'N';
+  </select>
+</mapper>

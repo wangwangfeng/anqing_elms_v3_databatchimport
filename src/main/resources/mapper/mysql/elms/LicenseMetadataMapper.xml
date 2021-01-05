@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zfsoft.batchimport.mapper.elms.LicenseMetadataMapper">
+  <resultMap id="LicenseMetadata" type="com.zfsoft.batchimport.domain.entity.LicenseMetadata">
+    <id column="METADATA_OID" jdbcType="VARCHAR" property="metadataOid" />
+    <result column="DIRECTORY_OID" jdbcType="VARCHAR" property="directoryOid" />
+    <result column="METADATA_NAME" jdbcType="VARCHAR" property="metadataName" />
+    <result column="COLUMN_NAME" jdbcType="VARCHAR" property="columnName" />
+    <result column="COLUMN_TYPE" jdbcType="VARCHAR" property="columnType" />
+    <result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="COMFIDENTIAL_FLAG" jdbcType="CHAR" property="comfidentialFlag" />
+    <result column="DEL_FLAG" jdbcType="VARCHAR" property="delFlag" />
+    <result column="MUST_FLAG" jdbcType="CHAR" property="mustFlag" />
+    <result column="FORMDIRECTORY_FLAG" jdbcType="CHAR" property="formdirectoryFlag" />
+    <result column="IMGE_FLAG" jdbcType="CHAR" property="imgeFlag" />
+    <result column="ATTA_OID" jdbcType="VARCHAR" property="attaOid" />
+    <result column="LENGTH" jdbcType="VARCHAR" property="length" />
+    <result column="PLUGINS" jdbcType="VARCHAR" property="plugins" />
+    <result column="ORDER_NUMBER" jdbcType="BIGINT" property="orderNumber" />
+    <result column="AREA_HEIGHT" jdbcType="BIGINT" property="areaHeight" />
+    <result column="AREA_WIDTH" jdbcType="BIGINT" property="areaWidth" />
+    <result column="REPLACE_FLAG" jdbcType="VARCHAR" property="replaceFlag" />
+    <result column="ORGAN_OID" jdbcType="VARCHAR" property="organOid" />
+    <result column="DISTRICT_OID" jdbcType="VARCHAR" property="districtOid" />
+    <result column="MAIN_METADATA_FLAG" jdbcType="VARCHAR" property="mainMetadataFlag" />
+    <result column="MODIFY_DATE" jdbcType="TIMESTAMP" property="modifyDate" />
+    <result column="SYNC_FLAG" jdbcType="INTEGER" property="syncFlag" />
+    <result column="DIR_TYPE_OID" jdbcType="VARCHAR" property="dirTypeOid" />
+    <result column="HTML_TEMP" jdbcType="LONGVARCHAR" property="htmlTemp" />
+    <result column="COLUMN_SPLIT" jdbcType="LONGVARCHAR" property="columnSplit" />
+    <result column="OPTION_SPLIT" jdbcType="LONGVARCHAR" property="optionSplit" />
+  </resultMap>
+  <select id="getLicenseMetadataList" parameterType="string" resultMap="LicenseMetadata" >
+        select * from t_license_metadata where DEL_FLAG = 'N' and ORGAN_OID = #{organOid} and DIRECTORY_OID = #{directoryOid}  and MAIN_METADATA_FLAG = '2'
+         and (COLUMN_NAME is not null or  COLUMN_NAME != '')
+  </select>
+
+
+</mapper>

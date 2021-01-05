@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zfsoft.batchimport.mapper.elms.QRcodeConfigMapper">
+  <resultMap id="QRcodeConfig" type="com.zfsoft.batchimport.domain.entity.QRcodeConfig">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="QRcode_oid" jdbcType="VARCHAR" property="qrcodeOid" />
+    <result column="config_Type" jdbcType="VARCHAR" property="configType" />
+    <result column="config_name" jdbcType="VARCHAR" property="configName" />
+    <result column="config_code" jdbcType="VARCHAR" property="configCode" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="del_flag" jdbcType="VARCHAR" property="delFlag" />
+    <result column="MODIFY_DATE" jdbcType="TIMESTAMP" property="modifyDate" />
+    <result column="paixu" jdbcType="INTEGER" property="paixu" />
+    <result column="LICENSE_TYPE_OID" jdbcType="VARCHAR" property="licenseTypeOid" />
+  </resultMap>
+  <select id="getQRcodeConfigByOrganAndDirectoryOid"  parameterType="String" resultMap="QRcodeConfig">
+        select * from t_qrcode_config where DEL_FLAG = 'N'  and LICENSE_TYPE_OID = #{licenseTypeOid}
+      <if test="configType != null and configType != ''">
+        and config_Type = #{configType}
+      </if>
+  </select>
+</mapper>

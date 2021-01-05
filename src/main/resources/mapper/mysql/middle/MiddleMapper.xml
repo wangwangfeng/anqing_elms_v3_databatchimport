@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zfsoft.batchimport.mapper.middle.MiddleMapper">
+
+  <insert id="insertByCommonInsertDto" parameterType="com.zfsoft.batchimport.domain.dto.CommonInsertDto" >
+    insert into
+    ${tableName}
+    <if test="fieldMap != null">
+      <foreach collection="fieldMap" index="index" item="key" open="(" close=")" separator=",">
+        ${index}
+      </foreach>
+    </if>
+    values
+    <if test="fieldMap != null">
+      <foreach collection="fieldMap" index="index" item="value" open="(" close=")" separator=",">
+        <choose>
+          <when test="value instanceof String">
+            &apos;${value}&apos;
+          </when>
+          <when test="value instanceof java.util.Date">
+            #{value, jdbcType=Date}
+          </when>
+          <when test="value == null">
+            null
+          </when>
+          <otherwise>
+            ${value}
+          </otherwise>
+        </choose>
+      </foreach>
+    </if>
+  </insert>
+
+  <select id="existTable" parameterType="String" resultType="Integer">
+        select count(*)
+        from information_schema.TABLES
+        where LCASE(table_name)=#{tableName}
+    </select>
+
+  <select id="existData" parameterType="String" resultType="Integer">
+    select count(*)
+    from ${tableName} where 1 = 1
+    <if test="licenseCode != null and licenseCode != ''">
+      and license_Code = ${licenseCode}
+    </if>
+  </select>
+
+  <update id="dropTable">
+        DROP TABLE IF EXISTS ${tableName}
+    </update>
+
+  <update id="createNewTable" parameterType="com.zfsoft.batchimport.domain.dto.CommonCreateTableDto">
+    CREATE TABLE ${tableName} (
+    `OID` VARCHAR(64) NOT NULL COMMENT '主键',
+    <if test="commonTableFieldDtoList != null">
+      <foreach collection="commonTableFieldDtoList" index="index" item="item" open="" close="," separator=",">
+        ${item.fieldCode} ${item.fieldType}<if test="item.fieldLength != null and item.fieldLength != 0">(${item.fieldLength})</if> COMMENT &apos;${item.fieldName}&apos;
+      </foreach>
+    </if>
+    PRIMARY KEY (OID)) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT=&apos;${tableDesc}&apos;;
+  </update>
+  <update id="updateTableByLicenseNumber" parameterType="string">
+        update ${tableName}  set OPERATER_STATUS = ${operaterStatus} ,OPERATER_MESSAGE = #{operaterMessage} where LICENSE_NUMBER = #{licenseNumber}
+  </update>
+
+  <select id="selectTableByBatchNo"   parameterType="string" resultType="java.util.HashMap">
+    	select *  from ${tableName} where OPERATER_STATUS = 0  and batch_No = #{batchNo}
+  </select>
+
+  <update id="doneCallProduce"  parameterType="java.util.HashMap" statementType="CALLABLE">
+        {
+            call AutoGenerateBatchNo(
+                #{tableName,mode=IN}
+            )
+        }
+    </update>
+
+
+
+  <select id="getStatusNumber" parameterType="String" resultType="Integer">
+    select count(*)
+    from ${tableName} where  OPERATER_STATUS  = ${operaterStatus}
+  </select>
+
+
+</mapper>

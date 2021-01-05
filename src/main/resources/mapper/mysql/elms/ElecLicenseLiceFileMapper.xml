@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zfsoft.batchimport.mapper.elms.ElecLicenseLiceFileMapper">
+  <resultMap id="ElecLicenseLiceFile" type="com.zfsoft.batchimport.domain.entity.ElecLicenseLiceFile">
+
+        <id column="LICE_FILE_ID" jdbcType="VARCHAR" property="liceFileId" />
+
+        <result column="ELEC_LICEN_OID" jdbcType="VARCHAR" property="elecLicenOid" />
+        <result column="TEMPLATE_OID" jdbcType="VARCHAR" property="templateOid" />
+        <result column="ENABLE_STATUS" jdbcType="VARCHAR" property="enableStatus" />
+        <result column="DEL_FLAG" jdbcType="VARCHAR" property="delFlag" />
+        <result column="ATTA_OID" jdbcType="VARCHAR" property="attaOid" />
+        <result column="MASK_ATTA_OID" jdbcType="VARCHAR" property="maskAttaOid" />
+        <result column="MASK_MD_VERIFY" jdbcType="VARCHAR" property="maskMdVerify" />
+        <result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate" />
+        <result column="CREATE_BY" jdbcType="VARCHAR" property="createBy" />
+        <result column="CUR_VERSIONS" jdbcType="VARCHAR" property="versions" />
+        <result column="MD_VERIFY" jdbcType="VARCHAR" property="mdVerify" />
+  </resultMap>
+      <select id="queryElecLicenseLiceFileList" parameterType="String" resultMap="ElecLicenseLiceFile">
+            select *
+            from T_ELEC_LICENSE_LICE_FILE where 1 = 1
+            <if test="elecLicenOid != null and elecLicenOid != ''">
+                  and elec_Licen_Oid = #{elecLicenOid}
+            </if>
+      </select>
+      <!--<insert id="saveOrUpdateElecLicenseLiceFile" parameterType="com.zfsoft.batchimport.domain.entity.ElecLicenseLiceFile" >
+        INSERT INTO T_ELEC_LICENSE_LICE_FILE(LICE_FILE_ID, ELEC_LICEN_OID, TEMPLATE_OID, ENABLE_STATUS, DEL_FLAG, ATTA_OID, CREATE_DATE, CREATE_BY, CUR_VERSIONS)
+         values (#{liceFileId}, #{elecLicenOid},#{templateOid}, #{enableStatus}, #{delFlag}, #{attaOid},  #{createDate}, #{createBy},  #{versions}, #{mdVerify})
+      </insert>-->
+</mapper>

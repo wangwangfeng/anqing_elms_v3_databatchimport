@@ -1,0 +1,194 @@
+server:
+  port: 10091
+  servlet:
+    context-path: /batchimport
+spring:
+  # 数据库配置
+  jdbc:
+    # 注明数据库类型
+    type: mysql
+  datasource:
+    druidelms:
+      #url: jdbc:mysql://10.156.1.145:3306/elms_anqin_20200709?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8&useSSL=false
+      url: jdbc:mysql://10.156.1.145:3306/elms_anqin_20200605?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=utf-8&useSSL=false
+      # 用户名
+      username: root
+      # 密码
+      password: ypttest145
+      #password: root
+      driver-class-name: com.mysql.jdbc.Driver
+      # 初始化物理连接个数
+      initial-size: 1
+      # 最大连接池数量
+      max-active: 20
+      # 最小连接池数量
+      min-idle: 5
+      # 获取连接时最大等待时间(ms)
+      max-wait: 60000
+      # 开启缓存preparedStatement(PSCache)
+      pool-prepared-statements: true
+      # 启用PSCache后，指定每个连接上PSCache的大小
+      max-pool-prepared-statement-per-connection-size: 20
+      # 用来检测连接是否有效的sql
+      validation-query: select 'x'
+      # 申请连接时不检测连接是否有效
+      test-on-borrow: false
+      # 归还连接时不检测连接是否有效
+      test-on-return: false
+      # 申请连接时检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效（不影响性能）
+      test-while-idle: true
+      # 检测连接的间隔时间，若连接空闲时间 >= minEvictableIdleTimeMillis，则关闭物理连接
+      time-between-eviction-runs-millis: 60000
+      # 连接保持空闲而不被驱逐的最小时间(ms)
+      min-evictable-idle-time-millis: 300000
+      # 配置监控统计拦截的filters（不配置则监控界面sql无法统计），监控统计filter:stat，日志filter:log4j，防御sql注入filter:wall
+      filters: stat,log4j2,wall
+      # 支持合并多个DruidDataSource的监控数据
+      use-global-data-source-stat: true
+      # 通过connectProperties属性来打开mergeSql(Sql合并)功能；慢SQL记录(配置超过5秒就是慢，默认是3秒)
+      connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+
+
+    druidoriginal:
+      #url: jdbc:mysql://172.168.251.17:3306/cbtp_spring_base?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8&useSSL=false
+      url: jdbc:mysql://10.156.1.145:3306/elms_anqin_old_20200709?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=utf-8&useSSL=false
+      # 用户名
+      username: root
+      # 密码
+      password: ypttest145
+      #password: root
+      driver-class-name: com.mysql.jdbc.Driver
+      # 初始化物理连接个数
+      initial-size: 1
+      # 最大连接池数量
+      max-active: 20
+      # 最小连接池数量
+      min-idle: 5
+      # 获取连接时最大等待时间(ms)
+      max-wait: 60000
+      # 开启缓存preparedStatement(PSCache)
+      pool-prepared-statements: true
+      # 启用PSCache后，指定每个连接上PSCache的大小
+      max-pool-prepared-statement-per-connection-size: 20
+      # 用来检测连接是否有效的sql
+      validation-query: select 'x'
+      # 申请连接时不检测连接是否有效
+      test-on-borrow: false
+      # 归还连接时不检测连接是否有效
+      test-on-return: false
+      # 申请连接时检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效（不影响性能）
+      test-while-idle: true
+      # 检测连接的间隔时间，若连接空闲时间 >= minEvictableIdleTimeMillis，则关闭物理连接
+      time-between-eviction-runs-millis: 60000
+      # 连接保持空闲而不被驱逐的最小时间(ms)
+      min-evictable-idle-time-millis: 300000
+      # 配置监控统计拦截的filters（不配置则监控界面sql无法统计），监控统计filter:stat，日志filter:log4j，防御sql注入filter:wall
+      filters: stat,log4j2,wall
+      # 支持合并多个DruidDataSource的监控数据
+      use-global-data-source-stat: true
+      # 通过connectProperties属性来打开mergeSql(Sql合并)功能；慢SQL记录(配置超过5秒就是慢，默认是3秒)
+      connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+
+
+
+    druidmiddle:
+      url: jdbc:mysql://10.156.1.145:3306/elms_excel_20200707?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8&useSSL=false
+      # 用户名
+      username: root
+      # 密码
+      password: ypttest145
+      #password: root
+      driver-class-name: com.mysql.jdbc.Driver
+      # 初始化物理连接个数
+      initial-size: 1
+      # 最大连接池数量
+      max-active: 20
+      # 最小连接池数量
+      min-idle: 5
+      # 获取连接时最大等待时间(ms)
+      max-wait: 60000
+      # 开启缓存preparedStatement(PSCache)
+      pool-prepared-statements: true
+      # 启用PSCache后，指定每个连接上PSCache的大小
+      max-pool-prepared-statement-per-connection-size: 20
+      # 用来检测连接是否有效的sql
+      validation-query: select 'x'
+      # 申请连接时不检测连接是否有效
+      test-on-borrow: false
+      # 归还连接时不检测连接是否有效
+      test-on-return: false
+      # 申请连接时检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效（不影响性能）
+      test-while-idle: true
+      # 检测连接的间隔时间，若连接空闲时间 >= minEvictableIdleTimeMillis，则关闭物理连接
+      time-between-eviction-runs-millis: 60000
+      # 连接保持空闲而不被驱逐的最小时间(ms)
+      min-evictable-idle-time-millis: 300000
+      # 配置监控统计拦截的filters（不配置则监控界面sql无法统计），监控统计filter:stat，日志filter:log4j，防御sql注入filter:wall
+      filters: stat,log4j2,wall
+      # 支持合并多个DruidDataSource的监控数据
+      use-global-data-source-stat: true
+      # 通过connectProperties属性来打开mergeSql(Sql合并)功能；慢SQL记录(配置超过5秒就是慢，默认是3秒)
+      connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+  kafka:
+    consumer:
+      bootstrap-servers: 10.156.1.90:9192
+
+      #      bootstrap-servers: 192.168.2.90:9092
+      group-id: test-consumer-group
+      #      auto-offset-reset: earliest
+      auto-offset-reset: latest
+      enable-auto-commit: true
+    producer:
+      bootstrap-servers: 10.156.1.90:9192
+    #      bootstrap-servers: 192.168.2.90:9092
+    #消费监听接口监听的主题不存在时，默认会报错因此要关掉这个
+    listener:
+      missing-topics-fatal: false
+MybatisConfigurer:
+  configuration:
+    #分页
+    map-underscore-to-camel-case: true
+
+# Sql文打印
+logging:
+  level:
+    com:
+      zfsoft:
+        data:
+          import:
+            mapper: debug
+  # 日志配置文件 默认 log4j2-spring.xml
+  config: classpath:prop/test/log4j2-spring.xml
+# 通用mapper配置
+mapper:
+  identity: SELECT REPLACE(UUID(),''-'','''')
+  before: true
+  # insert、update是否判断字符串类型!='' 即 test="str != null"表达式内是否追加 and str != ''
+  not-empty: false
+  mappers: tk.mybatis.mapper.common.Mapper
+# mybatis配置
+#mybatis:
+#  base-packages: ${project.mapper.package}
+#  # 添加XML目录
+#  mapper-locations: classpath:mapper/mysql/middle/*.xml
+#  type-aliases-package: ${project.entity.package}
+#  configuration:
+#    # 解决使用bean传值，当传入值为Null时，提示“无效的列类型”的解决办法
+#    jdbc-type-for-null: 'null'
+#    call-setters-on-nulls: true
+
+# pagehelper配置
+pagehelper:
+  # 分页尺寸为0时查询所有纪录不再执行分页
+  page-size-zero: true
+  # 页码<=0 查询第一页，页码>=总页数查询最后一页
+  reasonable: true
+  # 支持通过 Mapper 接口参数来传递分页参数
+  support-methods-arguments: true
+  params: count=countSql
+#es地址，最后一个斜杠必须加上
+elasticsearch-api:
+  universalSave: http://10.156.1.90:8180/elasticsearch/
+elms:
+  prePath: I:/elms_files/
+  preDownload: elms_file/

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zfsoft.batchimport.mapper.elms.ElecLicenseMainMapper">
+  <resultMap id="ElecLicenseMain" type="com.zfsoft.batchimport.domain.entity.ElecLicenseMain">
+        <id column="ELEC_LICEN_OID" jdbcType="VARCHAR" property="elecLicenOid" />
+
+        <result column="LICENSE_TYPE" jdbcType="VARCHAR" property="licenseType" />
+        <result column="LICENSE_VERSION" jdbcType="VARCHAR" property="licenseVersion" />
+        <result column="LICENSE_NUMBER" jdbcType="VARCHAR" property="licenseNumber" />
+        <result column="DIRECTORY_OID" jdbcType="VARCHAR" property="directoryOid" />
+        <result column="CLAIM_OID" jdbcType="VARCHAR" property="claimOid" />
+        <result column="LICENSE_STATUS" jdbcType="VARCHAR" property="licenseStatus" />
+        <result column="VALIDITY_DATE_START" jdbcType="TIMESTAMP" property="validityDateStart" />
+        <result column="VALIDITY_DATE_END" jdbcType="TIMESTAMP" property="validityDateEnd" />
+        <result column="AUTO_ANNUAL_FLAG" jdbcType="VARCHAR" property="autoAnnualFlag" />
+        <result column="AUTO_ANNUAL_DATE" jdbcType="VARCHAR" property="autoAnnualDate" />
+      <result column="AUTO_CANCEL_FLAG" jdbcType="VARCHAR" property="autoCancelFlag" />
+      <result column="AUTO_CANCEL_DATE" jdbcType="VARCHAR" property="autoCancelDate" />
+      <result column="HOLDER" jdbcType="VARCHAR" property="holder" />
+      <result column="HOLDER_CODE" jdbcType="VARCHAR" property="holderCode" />
+      <result column="HOLDER_TYPE" jdbcType="VARCHAR" property="holderType" />
+      <result column="ACCREDITATION_DATE" jdbcType="TIMESTAMP" property="accreditationDate" />
+      <result column="USER_OID" jdbcType="VARCHAR" property="userOid" />
+      <result column="CONTACT_TEL" jdbcType="VARCHAR" property="contactTel" />
+      <result column="INFO_SOURCE" jdbcType="VARCHAR" property="infoSource" />
+      <result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate" />
+      <result column="DEL_FLAG" jdbcType="VARCHAR" property="delFlag" />
+      <result column="PUSH_STATUS" jdbcType="VARCHAR" property="push_status" />
+      <result column="LICENSE_CLASSIFY_STATUS" jdbcType="VARCHAR" property="licenseClassifyStatus" />
+      <result column="WATER_MARK" jdbcType="VARCHAR" property="waterMark" />
+      <result column="LONG_EFFECT" jdbcType="VARCHAR" property="longEffect" />
+      <result column="ELEC_LICENSE_UNIQUE" jdbcType="VARCHAR" property="elecLicenseUnique" />
+      <result column="IDENTIFICATE_NUMBER" jdbcType="VARCHAR" property="identificateNumber" />
+      <result column="ELEC_LICENSE_LEVEL" jdbcType="VARCHAR" property="elecLicenseLevel" />
+      <result column="TABLE_PARAM_OID" jdbcType="VARCHAR" property="tableParamOid" />
+      <result column="SYNC_ERR_TAG" jdbcType="VARCHAR" property="syncErrTag" />
+      <result column="TIME_OID" jdbcType="VARCHAR" property="timeOid" />
+      <result column="MODIFY_DATE" jdbcType="TIMESTAMP" property="modifyDate" />
+  </resultMap>
+    <select id="existDataLicenseCode" parameterType="String" resultType="Integer">
+        select count(*) as license
+        from T_ELEC_LICENSE_MAIN where 1 = 1
+        <if test="licenseCode != null">
+            and LICENSE_NUMBER = #{licenseCode}
+        </if>
+    </select>
+
+    <select id="viewElecLicenseMain" parameterType="String" resultMap="ElecLicenseMain">
+        select *
+        from T_ELEC_LICENSE_MAIN where 1 = 1
+        <if test="elecLicenOid != null and elecLicenOid != ''">
+            and ELEC_LICEN_OID = #{elecLicenOid}
+        </if>
+    </select>
+</mapper>

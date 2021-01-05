@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zfsoft.batchimport.mapper.elms.SysAttaMapper">
+  <resultMap id="SysAtta" type="com.zfsoft.batchimport.domain.entity.SysAtta">
+        <id column="OID" jdbcType="VARCHAR" property="oid" />
+        <result column="NAME" jdbcType="VARCHAR" property="name" />
+        <result column="ORIGIN_NAME" jdbcType="VARCHAR" property="originName" />
+        <result column="FILE_PATH" jdbcType="VARCHAR" property="filePath" />
+        <result column="EXTENSION_NAME" jdbcType="VARCHAR" property="extensionName" />
+        <result column="UPLOAD_DATE" jdbcType="VARCHAR" property="uploadDate" />
+        <result column="USER_OID" jdbcType="VARCHAR" property="userOid" />
+        <result column="IS_DELETE" jdbcType="VARCHAR" property="isDelete" />
+  </resultMap>
+
+
+</mapper>

@@ -1,0 +1,87 @@
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+
+<generatorConfiguration>
+    <properties resource="generator/Config.properties"/>
+
+    <!-- h2数据库连接驱动jar包 -->
+    <classPathEntry    location="D:\apache-maven-3.6.3\lib\mysql\mysql-connector-java\5.1.29\mysql-connector-java-5.1.29.jar"/>
+
+    <context id="DB2Tables" targetRuntime="MyBatis3Simple" defaultModelType="flat">
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+
+        <plugin type="tk.mybatis.mapper.generator.MapperPlugin">
+            <property name="mappers" value="tk.mybatis.mapper.common.Mapper"/>
+            <property name="caseSensitive" value="true"/>
+        </plugin>
+
+        <jdbcConnection driverClass="${jdbc.driverClass}"
+                        connectionURL="${jdbc.url}"
+                        userId="${jdbc.user}"
+                        password="${jdbc.password}">
+        </jdbcConnection>
+        <javaTypeResolver>
+            <!--控制是否强制DECIMAL和NUMERIC类型的字段转换为Java类型的java.math.BigDecimal-->
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+        <!--实体-->
+        <javaModelGenerator targetPackage="${project.entity.package}"
+                            targetProject="src/main/java"/>
+        <!--mapper.xml-->
+        <sqlMapGenerator targetPackage="mapper/mysql"
+                         targetProject="src/main/resources"/>
+
+        <!--mapper接口-->
+        <javaClientGenerator targetPackage="${project.mapper.package}"
+                             targetProject="src/main/java"
+                             type="XMLMAPPER"/>
+
+        <!--<table tableName="T_DICT" domainObjectName="Dict"-->
+               <!--enableCountByExample="false" enableUpdateByExample="false"-->
+               <!--enableDeleteByExample="false" enableSelectByExample="false"-->
+               <!--selectByExampleQueryId="false">-->
+            <!--<generatedKey column="id" sqlStatement="h2" identity="true"/>-->
+        <!--</table>-->
+        <!--<table tableName="T_PROJECT" domainObjectName="Project"-->
+               <!--enableCountByExample="false" enableUpdateByExample="false"-->
+               <!--enableDeleteByExample="false" enableSelectByExample="false"-->
+               <!--selectByExampleQueryId="false">-->
+            <!--<generatedKey column="id" sqlStatement="h2" identity="true"/>-->
+        <!--</table>-->
+        <!--<table tableName="T_ADMINS" domainObjectName="Admins"-->
+               <!--enableCountByExample="false" enableUpdateByExample="false"-->
+               <!--enableDeleteByExample="false" enableSelectByExample="false"-->
+               <!--selectByExampleQueryId="false">-->
+            <!--<generatedKey column="id" sqlStatement="h2" identity="true"/>-->
+        <!--</table>-->
+
+        <!--<table tableName="T_SCHEDULED_CRON" domainObjectName="ScheduledCron"-->
+               <!--enableCountByExample="false" enableUpdateByExample="false"-->
+               <!--enableDeleteByExample="false" enableSelectByExample="false"-->
+               <!--selectByExampleQueryId="false">-->
+            <!--<generatedKey column="id" sqlStatement="h2" identity="true"/>-->
+        <!--</table>-->
+
+        <!--<table tableName="T_ASYN_TASK" domainObjectName="AsynTask"-->
+               <!--enableCountByExample="false" enableUpdateByExample="false"-->
+               <!--enableDeleteByExample="false" enableSelectByExample="false"-->
+               <!--selectByExampleQueryId="false">-->
+            <!--<generatedKey column="oid" sqlStatement="mysql" identity="true"/>-->
+        <!--</table>-->
+       <!-- <table tableName="T_LICENSE_METADATA" domainObjectName="LicenseMetadata"
+            enableCountByExample="false" enableUpdateByExample="false"
+            enableDeleteByExample="false" enableSelectByExample="false"
+            selectByExampleQueryId="false">
+            <generatedKey column="oid" sqlStatement="mysql" identity="true"/>
+        </table>-->
+
+        <table tableName="T_QRcode_Config" domainObjectName="QRcodeConfig"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
+            <generatedKey column="QRCODE_OID" sqlStatement="mysql" identity="true"/>
+        </table>
+    </context>
+</generatorConfiguration>
